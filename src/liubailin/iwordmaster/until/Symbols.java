@@ -1,16 +1,20 @@
 package liubailin.iwordmaster.until;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 
- *  主要用来对json进进解析
+ *  主要用来对json进行解析
+ *  这个是基本解析
  *  */
-public class Symbols {
+public class Symbols implements Serializable {
 	
-	public static class SybolsItem {
+	public static class SybolsItem implements Serializable{
 		
-		public static class PartItem{
+		public static class PartItem implements Serializable{
+			private String part;
+			private List<String> means;
 			public String getPart() {
 				return part;
 			}
@@ -23,8 +27,12 @@ public class Symbols {
 			public void setMeans(List<String> means) {
 				this.means = means;
 			}
-			private String part;
-			private List<String> means;
+			
+			@Override
+			public String toString() {
+				return "PartItem [part=" + part + ", means=" + means + "]";
+			}
+
 		}
 		
 		private String ph_en;
@@ -33,7 +41,7 @@ public class Symbols {
 		private String ph_en_mp3;
 		private String ph_am_mp3;
 		private String ph_tts_mp3;
-		private List<PartItem> partList;
+		private List<PartItem> parts;
 		
 		public String getPh_en() {
 			return ph_en;
@@ -71,21 +79,34 @@ public class Symbols {
 		public void setPh_tts_mp3(String ph_tts_mp3) {
 			this.ph_tts_mp3 = ph_tts_mp3;
 		}
-		public List<PartItem> getPartList() {
-			return partList;
+		public List<PartItem> getParts() {
+			return parts;
 		}
-		public void setPartList(List<PartItem> partList) {
-			this.partList = partList;
+		public void setParts(List<PartItem> parts) {
+			this.parts = parts;
 		}
+		
+		@Override
+		public String toString() {
+			return "SybolsItem [ph_en=" + ph_en + ", ph_am=" + ph_am + ", ph_other=" + ph_other + ", ph_en_mp3="
+					+ ph_en_mp3 + ", ph_am_mp3=" + ph_am_mp3 + ", ph_tts_mp3=" + ph_tts_mp3 + ", parts=" + parts + "]";
+		}
+
+		
 	}
 	
-	private List<SybolsItem> symbolList;
+	private List<SybolsItem> symbols;
 
-	public List<SybolsItem> getSymbolList() {
-		return symbolList;
+	public List<SybolsItem> getSymbols() {
+		return symbols;
 	}
 
-	public void setSymbolList(List<SybolsItem> symbolList) {
-		this.symbolList = symbolList;
+	public void setSymbols(List<SybolsItem> symbols) {
+		this.symbols = symbols;
+	}
+
+	@Override
+	public String toString() {
+		return "Symbols [symbols=" + symbols + "]";
 	}
 }
