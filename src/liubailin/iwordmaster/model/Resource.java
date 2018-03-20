@@ -81,7 +81,7 @@ public class Resource {
 	 * 失败返回 null
 	 */
 	
-	Symbols getSymbols(String word){
+	public Symbols getSymbols(String word){
 		Symbols symbols = null;
 		List<Map<Object,Object>> list = null;
 		String json = this.getJson(word);
@@ -91,15 +91,19 @@ public class Resource {
 		JSONObject obj = JSON.parseObject(json);
 		obj = obj.getJSONObject("baesInfo");
 		JSONArray objArray = obj.getJSONArray("symbols");
-		System.out.println(objArray.toJSONString());
+		//System.out.println(objArray.toJSONString());
 		symbols = (Symbols) JSON.parseObject("{\"symbols\":" + objArray.toJSONString()+"}",Symbols.class);
-		System.out.println(symbols);
+		//System.out.println(symbols);
 		return symbols;
 		
 	}
 	
-//	public static void main(String args[]) {
-//		Resource res = new Resource();
-//		res.getSymbols("hello");
-//	}
+	/**
+	 * 作个简单测试
+	 * @param args
+	 */
+	public static void main(String args[]) {
+		Resource res = new Resource();
+		res.getSymbols("hello");
+	}
 }
