@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import liubailin.iwordmaster.model.Resource;
+import liubailin.iwordmaster.until.JuShi;
 import liubailin.iwordmaster.until.Symbols;
 import liubailin.iwordmaster.view.Action;
 
@@ -36,10 +37,7 @@ public class Parse {
 		}
 	}
 	
-	/**
-	 *  运行
-	 */
-	public void start() {
+	public void addSymbols(){
 		//System.out.println("cmd:"+cmd+ "word"+word);
 		if(word.size() > 1) System.out.println("一次只能查一个单词");
 		String w = word.get(0);
@@ -68,12 +66,38 @@ public class Parse {
 				}
 			}
 		}
-		action.addMsg("symbols", res);
+		action.addMsg("1symbols", res);
+	
+	}
+	
+	public void addJushi() {
+		//System.out.println("cmd:"+cmd+ "word"+word);
+		if(word.size() > 1) System.out.println("一次只能查一个单词");
+		String w = word.get(0);
+		List<JuShi> jushis = resource.getJushi(w);
 		
+	
+		String res = "例句：\n";
+	 
+		for(JuShi item : jushis){
+			res += (item.getEnglish()+"\n");
+			res += (item.getChinese()+"\n");
+		}
+		action.addMsg("2jushi", res);
+	}
+	
+	/**
+	 *  运行
+	 */
+	public void start() {
+		String w = word.get(0);
+		Symbols symbols = resource.getSymbols(w);
+		
+		addSymbols();
 		/**
 		 * 扩展项
 		 */
-		
+
 		for(String cmd : cmds){
 			switch(cmd) {
 			case "-en" :
@@ -81,6 +105,9 @@ public class Parse {
 				break;
 			case "-am" :
 				action.playMp3(symbols.getSymbols().get(0).getPh_am_mp3());
+				break;
+			case "-js": //例句
+				addJushi();
 				break;
 			default :
 				action.addMsg("other", action.getMsg().get("other")+ ("未知参数："+ cmd +"\n"));

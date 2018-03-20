@@ -14,13 +14,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import liubailin.iwordmaster.until.JuShi;
 import liubailin.iwordmaster.until.Symbols;
 
 /** 
+ * 这个可以优化，以后有时间做
  * 主要用来获取网络资源
  * 
  */
-
 public class Resource {
 	
 	private String urlStr = "http://www.iciba.com/index.php?a=getWordMean&c=search&list=1%2C12%2C13%2C3005&word=";
@@ -98,6 +99,21 @@ public class Resource {
 		
 	}
 	
+	
+	public List<JuShi> getJushi(String word) {
+		JuShi symbols = null;
+		List<JuShi> list = null;
+		String json = this.getJson(word);
+		/* 如果是null就直接返回了*/
+		if(word == null) return null;
+		
+		JSONObject obj = JSON.parseObject(json);
+		JSONArray arr = obj.getJSONArray("jushi");
+		//System.out.println(arr.toJavaList(JuShi.class));
+		return arr.toJavaList(JuShi.class);
+	}
+	
+	
 	/**
 	 * 作个简单测试
 	 * @param args
@@ -105,5 +121,6 @@ public class Resource {
 	public static void main(String args[]) {
 		Resource res = new Resource();
 		res.getSymbols("hello");
+		res.getJushi("hello");
 	}
 }
