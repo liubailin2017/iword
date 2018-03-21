@@ -33,7 +33,7 @@ public class Resource {
 	 * 成功： 返回对应单词的json
 	 * 失败： 返回null
 	 */
-	public String getJson(String word){
+	public String getJson(String word) {
 		
 		String json = null;
 		URL url;
@@ -57,16 +57,13 @@ public class Resource {
 					json = sb.toString();
 				
 				}else {
-					/**
-					 * 这里就直接输出 了
-					 * */
-					System.out.println("连接失败");
+					json = null;
 				}
 				
 			} catch (MalformedURLException e) {
-				System.out.println(e.getMessage());
+				json = null;
 			} catch (IOException e) {
-				System.out.println(e.getMessage());
+				json = null;
 			}
 		
 			return json;
@@ -87,7 +84,7 @@ public class Resource {
 		List<Map<Object,Object>> list = null;
 		String json = this.getJson(word);
 		/* 如果是null就直接返回了*/
-		if(word == null) return null;
+		if(word == null || word.equals("")) return null;
 		
 		JSONObject obj = JSON.parseObject(json);
 		obj = obj.getJSONObject("baesInfo");
@@ -99,7 +96,11 @@ public class Resource {
 		
 	}
 	
-	
+	/**
+	 * 
+	 * @param word
+	 * @return
+	 */
 	public List<JuShi> getJushi(String word) {
 		JuShi symbols = null;
 		List<JuShi> list = null;
@@ -109,8 +110,12 @@ public class Resource {
 		
 		JSONObject obj = JSON.parseObject(json);
 		JSONArray arr = obj.getJSONArray("jushi");
+		if(arr == null) 
+			return null;
+		else
+			return arr.toJavaList(JuShi.class);
 		//System.out.println(arr.toJavaList(JuShi.class));
-		return arr.toJavaList(JuShi.class);
+	
 	}
 	
 	

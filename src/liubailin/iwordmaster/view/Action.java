@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import liubailin.iwordmaster.until.player.PlayerUrl;
 
@@ -16,7 +17,7 @@ public class Action {
 	/**
 	 * 要显示的信息
 	 */
-	Map<String,String> msg = new HashMap<>();
+	Map<String,String> msg = new TreeMap<>();
 
 	public Map<String, String> getMsg() {
 		return msg;

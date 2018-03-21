@@ -1,5 +1,9 @@
 package liubailin.iwordmaster.until;
-
+/**
+ * æ‰ Ω
+ * @author liubailin
+ *
+ */
 public class JuShi {
 	private String english;
 	private String chinese;

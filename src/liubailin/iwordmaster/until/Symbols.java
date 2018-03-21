@@ -5,9 +5,9 @@ import java.util.List;
 
 /**
  * 
- *  主要用来对json进行解析
  *  这个是基本解析
  *  */
+
 public class Symbols implements Serializable {
 	
 	public static class SybolsItem implements Serializable{
