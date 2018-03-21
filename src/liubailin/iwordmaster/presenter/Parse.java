@@ -56,6 +56,7 @@ public class Parse {
 				word.add(s);
 			}else{
 				cmds.add(s);
+				isCmd = false;
 			}
 		}
 //
