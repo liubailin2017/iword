@@ -24,18 +24,51 @@ public class Parse {
 	
 	/**
 	 * 	
-	 * 	以-开头的认为是 命令
+	 * 	以- , -- 开头的认为是 命令 (这里为了简化，把长命令，逗命令都认为是命令）
 	 * 	其它开头的认为是 word
 	 * @param args 参数 字符串数组
 	 */
 	public Parse(String [] args){
-		for(String s :args) {
-			if(s.charAt(0) == '-'){
-				cmds.add(s);
-			} else {
-				word.add(s);
+		
+		List<String> tmps = new ArrayList<>();
+		for(String s: args) {
+			if(null == s ) continue;
+			for(int i = 0; i < s.length(); i++){
+				if(s.charAt(i) == '-') 
+					tmps.add("-");
+				else{
+					tmps.add(s.substring(i));
+					break;
+				}
 			}
 		}
+		
+		boolean isCmd = false;
+		
+		for(String s : tmps) {
+			
+			if(s.equals("-")) { 
+				isCmd = true;
+				continue;
+			}
+			
+			if(!isCmd){
+				word.add(s);
+			}else{
+				cmds.add(s);
+			}
+		}
+//
+//		System.out.println(cmds);
+//		System.out.println(word);
+		
+//		for(String s :args) {
+//			if(s.charAt(0) == '-'){
+//				cmds.add(s);
+//			} else {
+//				word.add(s);
+//			}
+//		}
 	}
 	
 	/**
@@ -110,23 +143,24 @@ public class Parse {
 
 		for(String cmd : cmds){
 			switch(cmd) {
-			case "-en" :
+			case "en" :
 				if(symbols != null)
 					action.playMp3(symbols.getSymbols().get(0).getPh_en_mp3());
 				break;
-			case "-am" :
+			case "am" :
 				if(symbols != null)
 					action.playMp3(symbols.getSymbols().get(0).getPh_am_mp3());
 				break;
-			case "-js": //例句
+			case "js": //例句
 				addJushi();
 				break;
-			case "-help" :
-			case "--help" :
+				
+			case "h" :
+			case "help" :
 				action.addMsg("bhelp", Helper.getHelp());
 				break;
-			case "-about":
-			case "--about":
+			case "ab":
+			case "about":
 				action.addMsg("aabout", Helper.getAbout());
 				break;
 			default :
@@ -141,6 +175,7 @@ public class Parse {
 	public static void main(String args[]) {
 		Parse p = new Parse(args);
 		p.start();
+	
 	}
 	
 }
