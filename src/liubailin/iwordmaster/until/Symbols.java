@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 
+ * 	这个是baseinfo对像下的子对象，baseinfo属性太多。
  *  这个是基本解析
  *  */
 

@@ -24,7 +24,10 @@ import liubailin.iwordmaster.until.Symbols;
  */
 public class Resource {
 	
-	private String urlStr = "http://www.iciba.com/index.php?a=getWordMean&c=search&list=1%2C12%2C13%2C3005&word=";
+	/**
+	 * 金山词典源
+	 */
+	private String icibaUrlStr = "http://www.iciba.com/index.php?a=getWordMean&c=search&list=1%2C3005%2C12%2C13&word=";
 	
 	/**
 	 * 
@@ -39,7 +42,7 @@ public class Resource {
 		URL url;
 		
 		try {
-			url = new URL(urlStr+ word);
+			url = new URL(icibaUrlStr+ word);
 	
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.connect();
@@ -97,7 +100,7 @@ public class Resource {
 	}
 	
 	/**
-	 * 
+	 * 获得例句
 	 * @param word
 	 * @return
 	 */

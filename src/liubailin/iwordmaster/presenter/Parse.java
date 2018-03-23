@@ -19,12 +19,14 @@ public class Parse {
 	private Action action = new Action();
 	private Resource resource = new Resource();
 	
-	List<String> cmds = new ArrayList<>();
+	List<String> cmdsLong = new ArrayList<>();
+	
+	List<String> cmdsShort = new ArrayList<>();
 	List<String> word = new ArrayList<>();
 	
 	/**
 	 * 	
-	 * 	以- , -- 开头的认为是 命令 (这里为了简化，把长命令，逗命令都认为是命令）
+	 * 	以- 短命令, -- 开头的认为是 长命令
 	 * 	其它开头的认为是 word
 	 * @param args 参数 字符串数组
 	 */
@@ -42,26 +44,44 @@ public class Parse {
 				}
 			}
 		}
-		
-		boolean isCmd = false;
+		/**
+		 * ---------inCmd 
+		 * 0表时值
+		 * 1表示短命令
+		 * 2表示长命令
+		 */
+		int  isCmd = 0;
 		
 		for(String s : tmps) {
 			
-			if(s.equals("-")) { 
-				isCmd = true;
-				continue;
+			if(isCmd == 0 && s.equals("-")) {
+				isCmd = 1;
+			}else if(isCmd == 0 && !s.equals("-")){
+				 word.add(s);
+				 isCmd = 0;
+			}else if(isCmd == 1 && s.equals("-")){
+				isCmd = 2;
+			}else if(isCmd == 1 && !s.equals("-")) {
+				cmdsShort.add(s);
+				isCmd = 0;
+			}else if(isCmd == 2 && !s.equals("-")){
+				cmdsLong.add(s);
+				isCmd = 0;
+			}else{
+				word.clear();
+				cmdsLong.clear();
+				cmdsShort.clear();
+				action.addMsg("zerror", action.getMsg().get("zerror")+ ( "---------错误的命令-----------\n"));
 			}
 			
-			if(!isCmd){
-				word.add(s);
-			}else{
-				cmds.add(s);
-				isCmd = false;
-			}
+			
 		}
-//
-//		System.out.println(cmds);
-//		System.out.println(word);
+//	
+//		System.out.println("tmp:"+tmps);
+// 		System.out.println("word:"+word);
+// 		System.out.println("cmdsLong:"+cmdsLong);
+// 		System.out.println("short:"+cmdsShort);
+
 		
 //		for(String s :args) {
 //			if(s.charAt(0) == '-'){
@@ -138,34 +158,53 @@ public class Parse {
 		Symbols symbols = resource.getSymbols(w);
 		
 		addSymbols();
+		
 		/**
-		 * 扩展项
+		 * 把短命令添加到对应的长命令
 		 */
-
-		for(String cmd : cmds){
+		for(String cmd : cmdsShort){
+			switch(cmd) {
+			case "j":
+				cmdsLong.add("jushi");
+				break;
+			case "h":
+				cmdsLong.add("help");
+				break;
+			case "a":
+				cmdsLong.add("about");
+				break;
+			default :
+				action.addMsg("zerror", action.getMsg().get("zerror")+ ("未知参数："+ cmd +"\n"));
+			}
+		}
+		
+		for(String cmd : cmdsLong){
 			switch(cmd) {
 			case "en" :
-				if(symbols != null)
-					action.playMp3(symbols.getSymbols().get(0).getPh_en_mp3());
+				if(symbols != null && symbols.getSymbols().get(0).getPh_en_mp3() != null &&!symbols.getSymbols().get(0).getPh_en_mp3().equals(""))
+						action.playMp3(symbols.getSymbols().get(0).getPh_en_mp3());
+				else {
+					action.addMsg("warn", "---------没有英音-------");
+				}
 				break;
 			case "am" :
-				if(symbols != null)
+				if(symbols != null && symbols.getSymbols().get(0).getPh_am_mp3() != null &&!symbols.getSymbols().get(0).getPh_am_mp3().equals(""))
 					action.playMp3(symbols.getSymbols().get(0).getPh_am_mp3());
+				else {
+					action.addMsg("warn", "---------没有美音-------");
+				}
 				break;
-			case "js": //例句
+			case "jushi": //例句
 				addJushi();
 				break;
-				
-			case "h" :
 			case "help" :
 				action.addMsg("bhelp", Helper.getHelp());
 				break;
-			case "ab":
 			case "about":
 				action.addMsg("aabout", Helper.getAbout());
 				break;
 			default :
-				action.addMsg("zother", action.getMsg().get("other")+ ("未知参数："+ cmd +"\n"));
+				action.addMsg("zerror", action.getMsg().get("zerror")+ ("未知参数："+ cmd +"\n"));
 			}
 		}
 		

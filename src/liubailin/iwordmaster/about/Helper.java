@@ -9,12 +9,11 @@ public class Helper {
 	public static String getHelp(){
 		String help = "--------------Help---------------\n"
 					+ "使用: s [OPTION]... [word] \n"
-					+ "-en 发英音\n"
-					+ "-am 发美英\n"
-					+ "-js 显示例句\n"
-					+ "--help 显示帮助\n"
-					+ "--about 显示关于"
-					+ "blabla ...\n"
+					+ "--en 发英音\n"
+					+ "--am 发美英\n"
+					+ "-j --jushi 显示例句\n"
+					+ "-h --help 显示帮助\n"
+					+ "-a --about 显示关于\n"
 					+ "---------------------------------";
 		return help;
 	}
