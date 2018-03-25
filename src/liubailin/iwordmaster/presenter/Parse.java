@@ -5,6 +5,7 @@ import java.util.List;
 
 import liubailin.iwordmaster.about.Helper;
 import liubailin.iwordmaster.model.Resource;
+import liubailin.iwordmaster.until.HighLight;
 import liubailin.iwordmaster.until.JuShi;
 import liubailin.iwordmaster.until.Symbols;
 import liubailin.iwordmaster.view.Action;
@@ -111,7 +112,7 @@ public class Parse {
 		 */
 	if(symbols != null)
 		for(Symbols.SybolsItem item : symbols.getSymbols()){
-		res += ("美:/"+item.getPh_am()+"/ \t 英:/" +item.getPh_en()+"/\n");
+		res += (HighLight.blue("美:/")+item.getPh_am()+"/ \n"+ HighLight.blue("英:/" )+item.getPh_en()+"/\n");
 		/** 
 		 * 这个主要是形容词，名词啊之类的list
 		 */
@@ -202,6 +203,9 @@ public class Parse {
 				break;
 			case "about":
 				action.addMsg("aabout", Helper.getAbout());
+				break;
+			case "force": /*设为强制高亮，但这个参数要放在第一个 如: s --force hello -j --am*/
+				HighLight.FORCE =true;
 				break;
 			default :
 				action.addMsg("zerror", action.getMsg().get("zerror")+ ("未知参数："+ cmd +"\n"));

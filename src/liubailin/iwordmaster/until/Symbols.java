@@ -16,7 +16,7 @@ public class Symbols implements Serializable {
 			private String part;
 			private List<String> means;
 			public String getPart() {
-				return part;
+				return HighLight.red(part);
 			}
 			public void setPart(String part) {
 				this.part = part;
@@ -44,13 +44,13 @@ public class Symbols implements Serializable {
 		private List<PartItem> parts;
 		
 		public String getPh_en() {
-			return ph_en;
+			return HighLight.green(ph_en);
 		}
 		public void setPh_en(String ph_en) {
 			this.ph_en = ph_en;
 		}
 		public String getPh_am() {
-			return ph_am;
+			return HighLight.green(ph_am);
 		}
 		public void setPh_am(String ph_am) {
 			this.ph_am = ph_am;

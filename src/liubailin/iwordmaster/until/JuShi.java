@@ -9,13 +9,13 @@ public class JuShi {
 	private String chinese;
 	private String mp3;
 	public String getEnglish() {
-		return english;
+		return HighLight.green(english);
 	}
 	public void setEnglish(String english) {
 		this.english = english;
 	}
 	public String getChinese() {
-		return chinese;
+		return HighLight.green(chinese);
 	}
 	public void setChinese(String chinese) {
 		this.chinese = chinese;
