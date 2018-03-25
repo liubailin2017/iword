@@ -9,7 +9,7 @@ import java.util.TreeMap;
 import liubailin.iwordmaster.until.player.PlayerUrl;
 
 /**
- * 动作模块， 如 显示意思，播放语音等
+ * 动作模块， 如 显示意思，播放语音等 相当于 mvp模式中 view
  * @author liubailin
  *
  */

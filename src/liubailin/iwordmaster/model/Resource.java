@@ -86,17 +86,25 @@ public class Resource {
 		Symbols symbols = null;
 		List<Map<Object,Object>> list = null;
 		String json = this.getJson(word);
+		//System.out.println(json);
 		/* 如果是null就直接返回了*/
-		if(word == null || word.equals("")) return null;
-		
-		JSONObject obj = JSON.parseObject(json);
-		obj = obj.getJSONObject("baesInfo");
-		JSONArray objArray = obj.getJSONArray("symbols");
-		//System.out.println(objArray.toJSONString());
-		symbols = (Symbols) JSON.parseObject("{\"symbols\":" + objArray.toJSONString()+"}",Symbols.class);
-		//System.out.println(symbols);
-		return symbols;
-		
+		if(word == null || word.equals("") || json == null) return null;
+		try{
+			JSONObject obj = JSON.parseObject(json);
+			obj = obj.getJSONObject("baesInfo");
+			JSONArray objArray = obj.getJSONArray("symbols");
+			//System.out.println(objArray.toJSONString());
+			symbols = (Symbols) JSON.parseObject("{\"symbols\":" + objArray.toJSONString()+"}",Symbols.class);
+			//System.out.println(symbols);
+			return symbols;
+		}catch(NullPointerException e){
+			/** 说明
+			 * 
+			 * 这里我选择捕获空指针异常，这样做肯定是不好的， 因为后期很难查错。
+			 * 但这个程序我不想再维护了，抛空指针应该是没有获取到值，就返回null表示没有查到单词。 
+			 */
+			return null;
+		}
 	}
 	
 	/**

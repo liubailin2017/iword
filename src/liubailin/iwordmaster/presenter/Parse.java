@@ -110,7 +110,11 @@ public class Parse {
 		/**
 		 * symbols 不知道为什么是个list 这个要问金山为什么要这样。
 		 */
-	if(symbols != null)
+	if(symbols == null){
+		if(!w.equals("") && w != null)
+			action.addMsg("msg", "没有结果");
+	}
+	else
 		for(Symbols.SybolsItem item : symbols.getSymbols()){
 		res += (HighLight.blue("美:/")+item.getPh_am()+"/ \n"+ HighLight.blue("英:/" )+item.getPh_en()+"/\n");
 		/** 
