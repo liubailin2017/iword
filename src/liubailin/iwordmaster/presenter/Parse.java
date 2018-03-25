@@ -158,8 +158,6 @@ public class Parse {
 		if(word.size() > 0) w = word.get(0);
 		Symbols symbols = resource.getSymbols(w);
 		
-		addSymbols();
-		
 		/**
 		 * 把短命令添加到对应的长命令
 		 */
@@ -211,6 +209,8 @@ public class Parse {
 				action.addMsg("zerror", action.getMsg().get("zerror")+ ("未知参数："+ cmd +"\n"));
 			}
 		}
+		
+		addSymbols();
 		
 		action.show();
 		
