@@ -26,7 +26,8 @@ public class Parse {
 	List<String> word = new ArrayList<>();
 	
 	/**
-	 * 	
+	 * 	解析命令	
+	 * 
 	 * 	以- 短命令, -- 开头的认为是 长命令
 	 * 	其它开头的认为是 word
 	 * @param args 参数 字符串数组
