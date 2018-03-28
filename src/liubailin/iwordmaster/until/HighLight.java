@@ -3,7 +3,7 @@ package liubailin.iwordmaster.until;
 public class  HighLight {
 	public static boolean FORCE = false;
 	/**
-	 * 命令行是否支持高亮 
+	 * 判断命令行是否支持高亮 
 	 * @return true 支持，false 不支持
 	 */
 	public static boolean isSupport() {

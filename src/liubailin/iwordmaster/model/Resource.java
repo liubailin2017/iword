@@ -22,10 +22,13 @@ import liubailin.iwordmaster.until.Symbols;
  * 主要用来获取网络资源
  * 
  */
+
+
 public class Resource {
 	
 	/**
-	 * 金山词典源
+	 * 非官方金山词典源 
+	 *  <a href="https://github.com/jokermonn/-Api/blob/master/KingsoftDic.md">api说明</a>
 	 */
 	private String icibaUrlStr = "http://www.iciba.com/index.php?a=getWordMean&c=search&list=1%2C3005%2C12%2C13&word=";
 	
@@ -110,7 +113,7 @@ public class Resource {
 	/**
 	 * 获得例句
 	 * @param word
-	 * @return
+	 * @return 成功返回JuShi列表 失败 null
 	 */
 	public List<JuShi> getJushi(String word) {
 		JuShi symbols = null;

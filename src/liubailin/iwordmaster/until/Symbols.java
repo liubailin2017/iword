@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 	这个是baseinfo对像下的子对象，baseinfo属性太多。
- *  这个是基本解析
+ * 	这个是baseinfo对像下的子对象，baseinfo属性太多就直接把 Symbols提出来。
+ *  这个是基本解析结构
  *  */
 
 public class Symbols implements Serializable {

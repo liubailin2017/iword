@@ -1,6 +1,6 @@
 package liubailin.iwordmaster.until;
 /**
- * 句式
+ * 句式结构
  * @author liubailin
  *
  */
