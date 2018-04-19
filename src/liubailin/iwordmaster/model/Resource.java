@@ -4,18 +4,38 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import liubailin.iwordmaster.model.db.DBCon;
 import liubailin.iwordmaster.until.JuShi;
+import liubailin.iwordmaster.until.LocalSimple;
+import liubailin.iwordmaster.until.SimpleTmp;
 import liubailin.iwordmaster.until.Symbols;
+import liubailin.iwordmaster.until.Symbols.SybolsItem;
 
 /** 
  * 这个可以优化，以后有时间做
@@ -109,7 +129,48 @@ public class Resource {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * 本地词典
+	 * @param word
+	 * @return
+	 */
+	public LocalSimple getLocalSimple(String word) {
+		ResultSet set = new DBCon().doQuery("select * from Dict where word=?", new Object[]{word});
+		LocalSimple localSimple = new LocalSimple();
+		try {
+			while(set.next()) {
+//				System.out.println(set.getString(1));
+//				System.out.println(set.getString(2));
+//				System.out.println(set.getString(3));
+				String xml = set.getString(3);
+				StringReader read = new StringReader(xml);
+				InputSource source = new InputSource(read);
+				DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+				try {
+					  DocumentBuilder db  = dbf.newDocumentBuilder();
+					  Document document = db.parse(source);
+					  NodeList nodelist =document.getElementsByTagName("V");
+					  localSimple.setHwV(nodelist.item(0).getTextContent());
+					  localSimple.setPronV(nodelist.item(1).getTextContent());
+					  List<LocalSimple.Sens> senslist  = new ArrayList<>();
+					  nodelist = document.getElementsByTagName("SENS");
+					  for(int i = 0; i < nodelist.getLength();i++) {
+						  LocalSimple.Sens sens = new LocalSimple.Sens();
+						  sens.setPos(nodelist.item(i).getChildNodes().item(0).getTextContent());
+						  sens.setDefSenD(nodelist.item(i).getChildNodes().item(2).getChildNodes().item(0).getChildNodes().item(0).getTextContent());
+						  senslist.add(sens);
+					  }
+					  localSimple.setSensList(senslist);
+				} catch (ParserConfigurationException | SAXException | IOException e) {
+					e.printStackTrace();
+				  }
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return localSimple;
+	}
 	/**
 	 * 获得例句
 	 * @param word

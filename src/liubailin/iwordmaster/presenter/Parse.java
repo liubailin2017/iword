@@ -7,6 +7,8 @@ import liubailin.iwordmaster.about.Helper;
 import liubailin.iwordmaster.model.Resource;
 import liubailin.iwordmaster.until.HighLight;
 import liubailin.iwordmaster.until.JuShi;
+import liubailin.iwordmaster.until.LocalSimple;
+import liubailin.iwordmaster.until.SimpleTmp;
 import liubailin.iwordmaster.until.Symbols;
 import liubailin.iwordmaster.view.Action;
 
@@ -99,7 +101,7 @@ public class Parse {
 	 */
 	public void addSymbols(){
 		//System.out.println("cmd:"+cmd+ "word"+word);
-		if(word.size() > 1) System.out.println("一次只能查一个单词");
+		if(word.size() > 1) System.out.println(HighLight.red("一次只能查一个单词"));
 		String w ="";
 		if(word.size() > 0) w = word.get(0);
 		Symbols symbols = resource.getSymbols(w);
@@ -113,7 +115,7 @@ public class Parse {
 		 */
 	if(symbols == null){
 		if(!w.equals("") && w != null)
-			action.addMsg("msg", "没有结果");
+			action.addMsg("msg", HighLight.red("没有网络结果"));
 	}
 	else
 		for(Symbols.SybolsItem item : symbols.getSymbols()){
@@ -140,19 +142,36 @@ public class Parse {
 	 */
 	public void addJushi() {
 		//System.out.println("cmd:"+cmd+ "word"+word);
-		if(word.size() > 1) System.out.println("一次只能查一个单词");
+		if(word.size() > 1) System.out.println(HighLight.red("一次只能查一个单词"));
 		String w ="";
 		if(word.size() > 0) w = word.get(0);
 		List<JuShi> jushis = resource.getJushi(w);
 		
 	
 		String res = "例句：\n";
-	 if(jushis != null)
+		if(jushis != null)
 		for(JuShi item : jushis){
 			res += (item.getEnglish()+"\n");
 			res += (item.getChinese()+"\n");
 		}
 		action.addMsg("hjushi", res);
+	}
+	
+	public void addLocalSimple() {
+		//System.out.println("cmd:"+cmd+ "word"+word);
+		if(word.size() > 1) System.out.println(HighLight.red("一次只能查一个单词"));
+		String w ="";
+		if(word.size() > 0) w = word.get(0);
+		LocalSimple localSimple = resource.getLocalSimple(w);
+		String res = "本地词典：\n";	
+		if(localSimple != null) {
+			res += (localSimple.getPronL()+":"+localSimple.getPronV()+"\n");
+		
+			for(LocalSimple.Sens item : localSimple.getSensList()){
+					res += (item.getPos()+"\n"+item.getDefSenD()+"\n");
+			}
+		}
+		action.addMsg("alocal", res);
 	}
 	
 	/**
@@ -161,7 +180,7 @@ public class Parse {
 	public void start() {
 		String w ="";
 		if(word.size() > 0) w = word.get(0);
-		Symbols symbols = resource.getSymbols(w);
+		Symbols symbols = null;
 		
 		/**
 		 * 把短命令添加到对应的长命令
@@ -177,6 +196,9 @@ public class Parse {
 			case "a":
 				cmdsLong.add("about");
 				break;
+			case "l":
+				cmdsLong.add("local");
+				break;
 			default :
 				action.addMsg("zerror", action.getMsg().get("zerror")+ ("未知参数："+ cmd +"\n"));
 			}
@@ -184,7 +206,13 @@ public class Parse {
 		
 		for(String cmd : cmdsLong){
 			switch(cmd) {
+			case "local":
+				addLocalSimple();
+				action.show();
+				action.clearMsg();
+				break;
 			case "en" :
+				symbols = resource.getSymbols(w);
 				if(symbols != null && symbols.getSymbols().get(0).getPh_en_mp3() != null &&!symbols.getSymbols().get(0).getPh_en_mp3().equals(""))
 						action.playMp3(symbols.getSymbols().get(0).getPh_en_mp3());
 				else {
@@ -192,6 +220,7 @@ public class Parse {
 				}
 				break;
 			case "am" :
+				symbols = resource.getSymbols(w);
 				if(symbols != null && symbols.getSymbols().get(0).getPh_am_mp3() != null &&!symbols.getSymbols().get(0).getPh_am_mp3().equals(""))
 					action.playMp3(symbols.getSymbols().get(0).getPh_am_mp3());
 				else {
