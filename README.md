@@ -1,4 +1,5 @@
 ## 整个程序构架不是太好，等我有时间，重做，使更具扩展性。
+## The entire program architecture is bad, so I will redo  when I have affluent times and make it more extensible.
 # iword
 一个跨平台的命令行词典
 ## 使用
