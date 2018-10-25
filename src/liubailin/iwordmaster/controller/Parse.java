@@ -1,10 +1,10 @@
-package liubailin.iwordmaster.presenter;
+package liubailin.iwordmaster.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import liubailin.iwordmaster.about.Helper;
-import liubailin.iwordmaster.model.Resource;
+import liubailin.iwordmaster.resource.Resource;
 import liubailin.iwordmaster.until.HighLight;
 import liubailin.iwordmaster.until.JuShi;
 import liubailin.iwordmaster.until.LocalSimple;
@@ -101,7 +101,8 @@ public class Parse {
 	 */
 	public void addSymbols(){
 		//System.out.println("cmd:"+cmd+ "word"+word);
-		if(word.size() > 1) System.out.println(HighLight.red("一次只能查一个单词"));
+		if(word.size() > 1) 
+			System.out.println(HighLight.red("一次只能查一个单词"));
 		String w ="";
 		if(word.size() > 0) w = word.get(0);
 		Symbols symbols = resource.getSymbols(w);
@@ -109,10 +110,11 @@ public class Parse {
 		/**
 		 * 基本释意
 		 */
-		String res = "";
+		String res ="*******"+w+"******"+ "\n";
 		/**
 		 * symbols 不知道为什么是个list 这个要问金山为什么要这样。
 		 */
+	
 	if(symbols == null){
 		if(!w.equals("") && w != null)
 			action.addMsg("msg", HighLight.red("没有网络结果"));
@@ -203,7 +205,7 @@ public class Parse {
 				action.addMsg("zerror", action.getMsg().get("zerror")+ ("未知参数："+ cmd +"\n"));
 			}
 		}
-		
+		Boolean isHidden = false;
 		for(String cmd : cmdsLong){
 			switch(cmd) {
 			case "local":
@@ -239,12 +241,16 @@ public class Parse {
 			case "force": /*设为强制高亮，但这个参数要放在第一个 如: s --force hello -j --am*/
 				HighLight.FORCE =true;
 				break;
+			case "hidden":
+				action.removeAll();
+				action.addMsg("hidden", "******************");
+				isHidden = true;
+				break;
 			default :
 				action.addMsg("zerror", action.getMsg().get("zerror")+ ("未知参数："+ cmd +"\n"));
 			}
 		}
-		
-		addSymbols();
+		if(!isHidden)	addSymbols();
 		
 		action.show();
 		

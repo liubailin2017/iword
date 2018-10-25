@@ -1,4 +1,4 @@
-package liubailin.iwordmaster.model;
+package liubailin.iwordmaster.resource;
 
 import java.io.BufferedReader;
 import java.io.IOException;

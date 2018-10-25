@@ -43,6 +43,9 @@ public class Action {
 	public String removeMsg(String key){
 			return msg.remove(key);
 	}
+	public void removeAll() {
+		msg.clear();
+	}
 	
 	public void clearMsg(){
 		msg.clear();
