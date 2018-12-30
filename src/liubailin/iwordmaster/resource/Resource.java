@@ -164,7 +164,9 @@ public class Resource {
 					  localSimple.setSensList(senslist);
 				} catch (ParserConfigurationException | SAXException | IOException e) {
 					e.printStackTrace();
-				  }
+				} catch (NullPointerException e) {
+					return null;
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

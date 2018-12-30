@@ -49,7 +49,7 @@ public class Parse {
 			}
 		}
 		/**
-		 * ---------inCmd 
+		 * ---------isCmd 
 		 * 0表时值
 		 * 1表示短命令
 		 * 2表示长命令
@@ -97,20 +97,36 @@ public class Parse {
 	}
 	
 	/**
+	 * 
+	 */
+	private String getWord() {
+		String w ="";
+		
+		for(int i = 0; i < word.size(); i++ ) {
+			if(i == 0) {
+				w += word.get(i);
+			}else {
+				w += (" "+word.get(i));
+			}
+		}
+		return w;
+	}
+	/**
 	 * 添加基本释意action 
 	 */
 	public void addSymbols(){
 		//System.out.println("cmd:"+cmd+ "word"+word);
-		if(word.size() > 1) 
-			System.out.println(HighLight.red("一次只能查一个单词"));
-		String w ="";
-		if(word.size() > 0) w = word.get(0);
+//		if(word.size() > 1) 
+//			System.out.println(HighLight.red("一次只能查一个单词"));
+		String w =getWord();
+		 
+		
 		Symbols symbols = resource.getSymbols(w);
 		
 		/**
 		 * 基本释意
 		 */
-		String res ="*******"+w+"******"+ "\n";
+		String res ="";
 		/**
 		 * symbols 不知道为什么是个list 这个要问金山为什么要这样。
 		 */
@@ -144,9 +160,7 @@ public class Parse {
 	 */
 	public void addJushi() {
 		//System.out.println("cmd:"+cmd+ "word"+word);
-		if(word.size() > 1) System.out.println(HighLight.red("一次只能查一个单词"));
-		String w ="";
-		if(word.size() > 0) w = word.get(0);
+		String w =getWord(); 
 		List<JuShi> jushis = resource.getJushi(w);
 		
 	
@@ -161,9 +175,8 @@ public class Parse {
 	
 	public void addLocalSimple() {
 		//System.out.println("cmd:"+cmd+ "word"+word);
-		if(word.size() > 1) System.out.println(HighLight.red("一次只能查一个单词"));
-		String w ="";
-		if(word.size() > 0) w = word.get(0);
+	 
+		String w =getWord(); 
 		LocalSimple localSimple = resource.getLocalSimple(w);
 		String res = "本地词典：\n";	
 		if(localSimple != null) {
@@ -172,6 +185,8 @@ public class Parse {
 			for(LocalSimple.Sens item : localSimple.getSensList()){
 					res += (item.getPos()+"\n"+item.getDefSenD()+"\n");
 			}
+		}else {
+			action.addMsg("warn", "本地词库中没有这单词");
 		}
 		action.addMsg("alocal", res);
 	}
@@ -255,14 +270,5 @@ public class Parse {
 		action.show();
 		
 	}
-	/**
-	 * 程序主要入口
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		Parse p = new Parse(args);
-		p.start();
-	
-	}
-	
+
 }

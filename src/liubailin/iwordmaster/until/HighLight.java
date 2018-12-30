@@ -7,6 +7,7 @@ public class  HighLight {
 	 * @return true 支持，false 不支持
 	 */
 	public static boolean isSupport() {
+//		return false ;
 		if(System.getProperties().getProperty("os.name").toLowerCase().startsWith("lin") || FORCE)
 			return true;
 		else 
