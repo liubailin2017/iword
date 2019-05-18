@@ -12,8 +12,8 @@ import remember.words.Words;
 
 public class WordsImpl implements Words {
 
-	String root = "/home/liubailin/Desktop/成都信息工程大学/";
-	String name = "58.txt";
+	String root = "/home/liubailin/Desktop/致为梦想而孤独的人/";
+	String name = "32.txt";
 	
 
 	@Override

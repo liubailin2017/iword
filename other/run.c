@@ -22,21 +22,28 @@ char * getpath(){
 	printf("buf:\n<%s>\n",buf);
 	return buf;
 }
-#endif
+#endif 
 #if ABSOUTION == 1
 #define getPath openPath
 #define TMPSIZE 256
 /*
 在path.txt指明绝对路径
 */
-char* openPath(){
+char* openPath(){ 
 	char *buf = malloc(TMPSIZE);
+	buf[0] = 0;
 	int i = 0;
 	FILE *file;
 	char ch = 0;
-	file = fopen("path.txt","rb");
+	char *t = getenv("HOME");
+	if(t != 0)
+		strcat(buf,t);
+	else 
+		printf("Not Seting Home\n");
+		strcat(buf,"/.iwordpath.txt");
+	file = fopen(buf,"rb");
 	if(file == 0) {
-		return 0;
+		return 0; 
 	}
 	ch = fgetc(file);
 	while(!feof(file) && (i < TMPSIZE - 1) )
@@ -50,11 +57,14 @@ char* openPath(){
 }
 
 
-#endif
+#endif 
 int main(int argc,char* args[]) {
 	int i  = 0; 
 	char *path = getPath();
-	
+	if(path == 0) {
+		printf("can't found .iwordpath.txt\n");
+		return 0;
+	}	
 	char comm[256] = {"java -Dfile.encoding=utf-8 -jar "};
 	strcat(comm,path);
 	strcat(comm,"s.jar --force ");
